@@ -25,6 +25,8 @@ function initSocketServer(httpserver){
         
     })
 
+
+
  io.on("connection", (socket) => {
   socket.on("ai-message", async (messagepayload) => {
     try {
@@ -50,6 +52,7 @@ function initSocketServer(httpserver){
          chat:messagepayload.chat 
       }).sort({createdAt:-1}).limit(20).lean()).reverse()
      
+ 
       const response = await aiservice.generateResponse(chathistory.map(item=>{
           return {
             role:item.role,
@@ -58,6 +61,11 @@ function initSocketServer(httpserver){
           }
       }));
 
+      // const vector = await aiservice.generatevector(messagepayload.content)
+      // console.log(vector)
+
+       const vector = await aiservice.generatevector(messagepayload.content)
+       console.log("vector: ",vector);
       await messageModel.create({
         chat,
         user: socket.user._id,
