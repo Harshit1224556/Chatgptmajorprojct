@@ -5,6 +5,7 @@ const userModel = require('../models/user.model')
 const aiservice = require('../services/ai.services')
 const messageModel = require('../models/message.model.js')
 const jwt = require('jsonwebtoken')
+const {creatememory} = require('../services/vector.service.js')
 function initSocketServer(httpserver){
     const io = new Server(httpserver,{})
     io.use( async (socket,next)=>{
@@ -61,11 +62,19 @@ function initSocketServer(httpserver){
           }
       }));
 
-      // const vector = await aiservice.generatevector(messagepayload.content)
-      // console.log(vector)
+    
 
        const vector = await aiservice.generatevector(messagepayload.content)
        console.log("vector: ",vector);
+
+      await creatememory({vector,
+        messageId:"67890",
+        metadata:{
+          chat:messagepayload.chat,
+          user:socket.user._id
+        }
+      })
+
       await messageModel.create({
         chat,
         user: socket.user._id,

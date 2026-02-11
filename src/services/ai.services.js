@@ -5,13 +5,9 @@ async function generateResponse(content)
     const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
        contents: content,
-
     })
-
     return response.text
-
 }
-
 async function generatevector(content)
 {
       const response = await ai.models.embedContent({
@@ -23,7 +19,6 @@ async function generatevector(content)
 
     });
 
-    return response.embeddings
+    return response.embeddings[0].values
 }
-
 module.exports = {generateResponse,generatevector}
