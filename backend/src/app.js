@@ -18,13 +18,7 @@ app.use(cookieParser())
 
 app.use('/api/auth', authRouters)
 app.use('/api/chat', chatRoutes)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../public")));
 
-  app.use((req, res) => {
-    res.sendFile(path.join(__dirname, "../public/index.html"));
-  });
-}
 
 
 
