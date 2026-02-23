@@ -3,11 +3,10 @@ const bycrypt  = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 function getCookieOptions() {
-    const isProd = process.env.NODE_ENV === 'production'
     return {
         httpOnly: true,
-        secure: isProd,
-        sameSite: isProd ? 'none' : 'lax',
+        secure: true,        // Always true for Render
+        sameSite: 'none',    // Required for cross-origin
         maxAge: 7 * 24 * 60 * 60 * 1000
     }
 }
