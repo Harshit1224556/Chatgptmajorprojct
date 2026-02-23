@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3000", {
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+// Create socket connection
+const socket = io(BASE_URL, {
   withCredentials: true,
   transports: ["websocket"],
 });
@@ -17,8 +20,9 @@ const ChatGPTClone = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // ---------------- LOAD CHATS ----------------
   const loadChats = async () => {
-    const res = await fetch("http://localhost:3000/api/chat", {
+    const res = await fetch(`${BASE_URL}/api/chat`, {
       credentials: "include",
     });
     const data = await res.json();
@@ -29,7 +33,7 @@ const ChatGPTClone = () => {
   // ---------------- LOAD MESSAGES ----------------
   const loadMessages = async (id) => {
     const res = await fetch(
-      `http://localhost:3000/api/chat/${id}/messages`,
+      `${BASE_URL}/api/chat/${id}/messages`,
       { credentials: "include" }
     );
 
@@ -47,11 +51,11 @@ const ChatGPTClone = () => {
 
   const openChat = (id) => {
     if (!id) return;
-
     localStorage.setItem("activeChatId", id);
     setChatId(id);
   };
 
+  // ---------------- INITIAL LOAD ----------------
   useEffect(() => {
     const init = async () => {
       const allChats = await loadChats();
@@ -62,7 +66,7 @@ const ChatGPTClone = () => {
       } else if (allChats.length > 0) {
         setChatId(allChats[0]._id);
       } else {
-        const res = await fetch("http://localhost:3000/api/chat", {
+        const res = await fetch(`${BASE_URL}/api/chat`, {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -78,7 +82,7 @@ const ChatGPTClone = () => {
     init();
   }, []);
 
-  // ---------------- LOAD MESSAGES WHEN chatId CHANGES ----------------
+  // ---------------- WHEN CHAT CHANGES ----------------
   useEffect(() => {
     if (!chatId) return;
 
@@ -105,7 +109,7 @@ const ChatGPTClone = () => {
 
   // ---------------- CREATE NEW CHAT ----------------
   const createNewChat = async () => {
-    const res = await fetch("http://localhost:3000/chat", {
+    const res = await fetch(`${BASE_URL}/api/chat`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

@@ -21,7 +21,13 @@ return context;
 function initSocketServer(httpserver) {
 
 const io = new Server(httpserver, {
-cors: { origin: "http://localhost:5173", credentials: true }
+  cors: {
+    origin: [
+      "http://localhost:5173",
+      "https://your-frontend-name.onrender.com"
+    ],
+    credentials: true
+  }
 });
 
 // AUTH
