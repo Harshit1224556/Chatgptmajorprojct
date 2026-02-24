@@ -9,9 +9,13 @@ const chatRoutes = require('./routes/chat.routes')
 const app = express()
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://y-nqukhwea1-iamharshitsharma518-5075s-projects.vercel.app'
+  ],
   credentials: true
-}))
+}));
 
 app.use(express.json())
 app.use(cookieParser())
