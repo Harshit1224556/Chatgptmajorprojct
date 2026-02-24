@@ -11,16 +11,25 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  /* Responsive font sizes */
+  --font-size-h1: clamp(1.75rem, 5vw, 3.2rem);
+  --font-size-h2: clamp(1.4rem, 4vw, 2.4rem);
+  --font-size-h3: clamp(1.1rem, 3vw, 1.8rem);
+  --font-size-base: clamp(0.95rem, 2vw, 1rem);
+  --font-size-sm: clamp(0.85rem, 1.5vw, 0.95rem);
+  --spacing-xs: clamp(0.25rem, 1vw, 0.5rem);
+  --spacing-sm: clamp(0.5rem, 2vw, 1rem);
+  --spacing-md: clamp(1rem, 3vw, 1.5rem);
+  --spacing-lg: clamp(1.5rem, 4vw, 2rem);
+  --spacing-xl: clamp(2rem, 5vw, 3rem);
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+@import url('./styles/responsive.css');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 a:hover {
   color: #535bf2;
 }
@@ -34,8 +43,19 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: var(--font-size-h1);
   line-height: 1.1;
+  margin: var(--spacing-sm) 0;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  margin: var(--spacing-sm) 0;
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+  margin: var(--spacing-xs) 0;
 }
 
 button {
@@ -68,4 +88,169 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+/* -------------------- */
+/* RESET + BASE SETUP   */
+/* -------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  background-color: #f9fafb;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* -------------------- */
+/* RESPONSIVE MEDIA     */
+/* -------------------- */
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* -------------------- */
+/* FORM IMPROVEMENTS    */
+/* -------------------- */
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* -------------------- */
+/* LINK RESET           */
+/* -------------------- */
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* -------------------- */
+/* CONTAINER SYSTEM     */
+/* -------------------- */
+
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+/* -------------------- */
+/* RESPONSIVE TYPOGRAPHY */
+/* -------------------- */
+
+h1 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+h3 {
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+}
+
+p {
+  font-size: clamp(0.95rem, 2vw, 1rem);
+}
+
+/* -------------------- */
+/* SCROLLBAR STYLING    */
+/* -------------------- */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f3f4f6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c7d2fe;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #818cf8;
+}
+
+/* -------------------- */
+/* UTILITIES            */
+/* -------------------- */
+
+.center-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.min-screen {
+  min-height: 100vh;
 }

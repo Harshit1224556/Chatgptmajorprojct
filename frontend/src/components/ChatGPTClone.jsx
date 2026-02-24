@@ -173,17 +173,23 @@ const ChatGPTClone = () => {
       <div className="flex flex-col flex-1">
         <main className="flex-1 overflow-y-auto p-6">
           {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={
-                msg.role === "user" ? "text-right mb-2" : "text-left mb-2"
-              }
-            >
-              <span className="inline-block px-4 py-2 rounded bg-gray-700">
-                {msg.content}
-              </span>
-            </div>
-          ))}
+  <div
+    key={msg.id}
+    className={`flex mb-3 ${
+      msg.role === "user" ? "justify-end" : "justify-start"
+    }`}
+  >
+    <div
+      className={`px-4 py-3 max-w-[70%] rounded-2xl text-sm shadow-md whitespace-pre-wrap break-words transition-all duration-300 ${
+        msg.role === "user"
+          ? "bg-green-500 text-white rounded-br-none"
+          : "bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-bl-none"
+      }`}
+    >
+      {msg.content}
+    </div>
+  </div>
+))}
           <div ref={chatEndRef} />
         </main>
 

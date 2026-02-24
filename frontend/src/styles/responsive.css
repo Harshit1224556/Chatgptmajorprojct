@@ -1,0 +1,223 @@
+/* ===== RESPONSIVE MOBILE-FIRST UTILITIES ===== */
+
+/* Touch-friendly padding for small screens */
+@media (max-width: 640px) {
+    body {
+        font-size: clamp(14px, 2vw, 16px);
+    }
+    
+    /* Ensure minimum touch targets are 44x44px */
+    button, 
+    a, 
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    .interactive {
+        min-height: 44px;
+        min-width: 44px;
+        padding: clamp(10px, 2vw, 12px) clamp(14px, 3vw, 16px);
+    }
+}
+
+/* Medium screens (tablets) */
+@media (min-width: 641px) and (max-width: 1024px) {
+    body {
+        font-size: clamp(15px, 1.5vw, 17px);
+    }
+}
+
+/* Large screens (desktop) */
+@media (min-width: 1025px) {
+    body {
+        font-size: 16px;
+    }
+}
+
+/* Safe area adjustments for notched devices */
+@supports (padding: max(0px)) {
+    body {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+    
+    .header, .footer, .navbar {
+        padding-top: max(1rem, env(safe-area-inset-top));
+        padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+}
+
+/* Flexbox responsive utilities */
+.flex-col-mobile {
+    @media (max-width: 640px) {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.flex-row-desktop {
+    @media (min-width: 641px) {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+/* Grid responsive utilities */
+.grid-auto-mobile {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+}
+
+/* Text responsiveness */
+.text-fluid {
+    font-size: clamp(0.875rem, 2vw, 1.25rem);
+    line-height: clamp(1.2, 2.5vw, 1.5);
+}
+
+.text-fluid-lg {
+    font-size: clamp(1rem, 3vw, 1.75rem);
+    line-height: clamp(1.3, 3vw, 1.6);
+}
+
+.text-fluid-sm {
+    font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+    line-height: clamp(1.1, 2vw, 1.4);
+}
+
+/* Container queries for responsive layouts */
+@container (max-width: 300px) {
+    .responsive-text {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+}
+
+@container (min-width: 301px) {
+    .responsive-text {
+        font-size: 0.95rem;
+        padding: 0.75rem;
+    }
+}
+
+/* Prevents text from being too cramped on mobile */
+.text-readable {
+    max-width: 90vw;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Prevents images from breaking layout */
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Responsive spacing helpers */
+.space-responsive-x {
+    gap: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+.space-responsive-y {
+    gap: clamp(0.75rem, 3vw, 2rem);
+}
+
+.p-responsive {
+    padding: clamp(1rem, 4vw, 2rem);
+}
+
+.m-responsive {
+    margin: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+/* Touch-friendly input adjustments */
+input, textarea, select {
+    font-size: 16px; /* Prevents zoom on iOS Safari */
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Better form control styling for mobile */
+@media (max-width: 640px) {
+    input, textarea, select {
+        min-height: 44px;
+        min-width: 44px;
+        font-size: 16px;
+        border-radius: clamp(8px, 2vw, 10px);
+    }
+}
+
+/* Responsive orientation adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+    .chat-sidebar {
+        max-height: 80vh;
+    }
+    
+    .messages {
+        max-height: 60vh;
+    }
+}
+
+/* Print styles for responsive printing */
+@media print {
+    * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    body {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+/* Horizontal scroll prevention */
+body, html {
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
+/* Ensure proper stacking on small screens */
+.z-mobile-menu {
+    z-index: 40;
+}
+
+.z-mobile-overlay {
+    z-index: 30;
+}
+
+/* Smooth scrolling for better mobile experience */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark mode adjustments for readability on mobile */
+@media (prefers-color-scheme: dark) {
+    @media (max-width: 640px) {
+        /* Increase contrast on small dark screens */
+        body {
+            background-color: #000;
+        }
+    }
+}
+
+/* Landscape mode adjustments */
+@media (orientation: landscape) {
+    body {
+        max-height: 100vh;
+        overflow-y: auto;
+    }
+}

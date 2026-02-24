@@ -1,31 +1,37 @@
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
 .modal-box {
   background: #202123;
   color: white;
-  width: 400px;
-  border-radius: 12px;
-  padding: 18px;
-  animation: pop .18s ease;
+  width: min(400px, 90vw);
+  border-radius: clamp(10px, 3vw, 14px);
+  padding: clamp(14px, 4vw, 24px);
+  animation: pop 0.18s ease;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 @keyframes pop {
-  from { transform: scale(.9); opacity: 0 }
-  to { transform: scale(1); opacity: 1 }
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: clamp(0.5rem, 2vw, 1rem);
+}
+
+.modal-header h2 {
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  margin: 0;
 }
 
 .close-btn {
@@ -33,19 +39,62 @@
   border: none;
   color: #aaa;
   cursor: pointer;
-  font-size: 18px;
+  font-size: clamp(16px, 3vw, 20px);
+  padding: clamp(4px, 1vw, 8px);
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+  touch-action: manipulation;
+  flex-shrink: 0;
+}
+
+.close-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+.close-btn:active {
+  transform: scale(0.95);
 }
 
 .modal-content {
-  margin-top: 15px;
+  margin-top: clamp(10px, 2vw, 16px);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .modal-input {
   width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
+  padding: clamp(8px, 2vw, 12px) clamp(10px, 2vw, 14px);
+  border-radius: clamp(6px, 2vw, 8px);
+  border: 1px solid #3a3a3c;
   background: #40414f;
   color: white;
-  margin-top: 10px;
+  margin-top: clamp(8px, 2vw, 12px);
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: #565759;
+}
+
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: clamp(0.5rem, 1vw, 0.75rem);
+  }
+  
+  .modal-box {
+    width: 100%;
+    max-height: 85vh;
+  }
 }

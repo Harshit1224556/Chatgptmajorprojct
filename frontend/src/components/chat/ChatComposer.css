@@ -2,29 +2,33 @@
 /* Centered, max-width column, floating pill with subtle border */
 
 .composer {
-    position: sticky; /* stays above scroll end */
+    position: sticky;
     bottom: 0;
     width: 100%;
-    padding: 24px 0 32px; /* vertical breathing room */
+    padding: clamp(1rem, 4vw, 2rem) clamp(0.5rem, 2vw, 1rem) clamp(1.5rem, 5vw, 2rem);
     display: flex;
     justify-content: center;
     background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,0));
     backdrop-filter: blur(12px);
+    box-sizing: border-box;
+    safe-area-inset-bottom: env(safe-area-inset-bottom, 0);
 }
 
 .composer-surface {
     display: flex;
     align-items: flex-end;
-    gap: 8px;
-    max-width: 820px; /* ChatGPT input width vibes */
+    gap: clamp(6px, 2vw, 10px);
+    max-width: min(820px, 100%);
     width: 100%;
-    margin: 0 32px;
+    margin: 0 auto;
+    padding: 0 clamp(0.75rem, 2vw, 1.5rem);
     background: #1f1f20;
     border: 1px solid #3a3a3c;
-    border-radius: 24px;
-    padding: 12px 14px 14px 18px; /* top tighter than bottom for hint room */
+    border-radius: clamp(16px, 4vw, 24px);
+    padding: clamp(10px, 2vw, 14px) clamp(12px, 2vw, 18px) clamp(12px, 2vw, 14px) clamp(14px, 2vw, 18px);
     position: relative;
     transition: border-color .15s, background-color .15s, box-shadow .15s;
+    box-sizing: border-box;
 }
 
 .composer-surface:focus-within {
@@ -43,18 +47,23 @@
     background: transparent;
     color: #f5f5f5;
     font: inherit;
+    font-size: clamp(0.9rem, 2vw, 1rem);
     line-height: 1.5;
-    max-height: 260px;
-    padding: 0 0 18px 0; /* space for hint overlay */
+    max-height: clamp(180px, 40vh, 260px);
+    padding: 0 0 clamp(12px, 2vw, 18px) 0;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
-.composer-input::placeholder { color: #8d8d91; }
+.composer-input::placeholder {
+    color: #8d8d91;
+}
 
 .composer-hint {
     position: absolute;
-    left: 2px;
-    bottom: 2px;
-    font-size: 11px;
+    left: clamp(4px, 1vw, 8px);
+    bottom: clamp(2px, 1vw, 4px);
+    font-size: clamp(9px, 1.5vw, 11px);
     color: #5f6165;
     pointer-events: none;
     user-select: none;
@@ -64,9 +73,11 @@
 
 /* Icon-only circular send button */
 .send-btn.icon-btn {
-    --size: 40px;
+    --size: clamp(32px, 8vw, 40px);
     width: var(--size);
     height: var(--size);
+    min-width: clamp(32px, 8vw, 40px);
+    min-height: clamp(32px, 8vw, 40px);
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
@@ -77,27 +88,57 @@
     cursor: pointer;
     transition: background-color .15s, border-color .15s, transform .15s;
     flex-shrink: 0;
+    touch-action: manipulation;
 }
 
-.send-btn.icon-btn:hover:not(:disabled) { background:#4a4a4d; }
-.send-btn.icon-btn:active:not(:disabled) { background:#343436; transform:translateY(1px); }
-.send-btn.icon-btn:disabled { opacity:.35; cursor: default; }
-.send-btn.icon-btn:focus-visible { outline:none; box-shadow:0 0 0 2px #fff,0 0 0 4px #000; }
-
-.send-icon { display:inline-flex; }
-
-/* Slide arrow a tad */
-.send-btn.icon-btn:hover:not(:disabled) .send-icon { transform: translateX(1px); }
-.send-icon svg { transition: transform .15s; }
-
-/* Compact adjustments for very narrow screens */
-@media (max-width:600px) {
-    .composer { padding: 16px 0 26px; }
-    .composer-surface { margin:0 12px; border-radius:20px; padding:10px 12px 12px 16px; }
-    .send-btn.icon-btn { --size:36px; }
+.send-btn.icon-btn:hover:not(:disabled) {
+    background: #4a4a4d;
 }
 
-@media (max-width:420px) {
+.send-btn.icon-btn:active:not(:disabled) {
+    background: #343436;
+    transform: translateY(1px);
+}
+
+.send-btn.icon-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.send-btn.icon-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000;
+}
+
+.send-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.send-btn.icon-btn:hover:not(:disabled) .send-icon {
+    transform: translateX(1px);
+}
+
+.send-icon svg {
+    transition: transform .15s;
+    width: clamp(16px, 4vw, 20px);
+    height: clamp(16px, 4vw, 20px);
+}
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 480px) {
+    .composer {
+        padding: clamp(0.75rem, 2vw, 1rem) clamp(0.5rem, 1vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
+    }
+    
+    .composer-surface {
+        border-radius: clamp(16px, 3vw, 20px);
+        padding: clamp(8px, 1.5vw, 12px) clamp(10px, 1.5vw, 14px) clamp(10px, 1.5vw, 12px) clamp(12px, 1.5vw, 16px);
+    }
+}
+
+@media (max-width:400px) {
     .composer-hint { display:none; }
     .composer-input { padding-bottom:0; }
 }
