@@ -39,6 +39,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 // routes
+app.get('/', (req, res) => {
+  res.send("Backend is running ✅");
+});
 app.use('/api/auth', authRouters);
 app.use('/api/chat', chatRoutes);
 
