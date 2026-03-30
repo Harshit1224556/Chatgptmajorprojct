@@ -51,36 +51,47 @@ if (!cookies.token) return next(new Error("No token"));
 
 io.on("connection", (socket) => {
 
-// ⭐ JOIN CHAT ROOM
+  console.log("🔥 CLIENT CONNECTED:", socket.id);
+
 socket.on("join-chat", (chatId) => {
   socket.join(chatId);
   console.log("User joined chat:", chatId);
 });
 
 socket.on("ai-message", async (messagepayload) => {
-  try {
+  try {  console.log("✅ STEP 1: Event triggered");
+
+
 
     if (typeof messagepayload === "string")
       messagepayload = JSON.parse(messagepayload);
+    console.log("✅ STEP 2: Payload parsed", messagepayload);
 
     const { chat, content } = messagepayload || {};
-    if (!chat || !content) return;
+    if (!chat || !content) {
+            console.log("❌ STEP 3: Missing chat/content");
 
-    // SAVE USER MESSAGE
+      return;
+    }
+
+     console.log("✅ STEP 4: Before DB save");
+
+
     const userMessage = await messageModel.create({
       chat,
       user: socket.user._id,
       content,
       role: "user",
     });
+    console.log("✅ STEP 5: Message saved");
 
-    // send user message to all clients in chat
     io.to(chat).emit("message-added", userMessage);
 
-    // VECTOR
-    const vector = await aiservice.generatevector(content);
 
-    // MEMORY SEARCH
+    const vector = await aiservice.generatevector(content);
+    console.log("✅ STEP 6: Vector generated");
+
+  
     const memoryMatches = await querymemory({
       queryvector: vector,
       limit: 5,
@@ -89,7 +100,7 @@ socket.on("ai-message", async (messagepayload) => {
 
     const memoryContext = buildMemoryContext(memoryMatches);
 
-    // CHAT HISTORY
+ 
     const chathistory = (
       await messageModel.find({ chat }).sort({ createdAt: -1 }).limit(20).lean()
     ).reverse();
@@ -115,7 +126,8 @@ ${content}
     // AI RESPONSE
     const response = await aiservice.generateResponse(finalPrompt);
    
-   
+      console.log("🔥 STEP 8: AI RESPONSE:", response);
+
     const aiMessage = await messageModel.create({
       chat,
       user: socket.user._id,

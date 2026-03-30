@@ -14,9 +14,9 @@ ${prompt}
         contents: finalPrompt,
     });
 
-    return response.text;
+   
+    return response.candidates?.[0]?.content?.parts?.[0]?.text || "";
 }
-
 async function generatevector(content)
 {
       const response = await ai.models.embedContent({
