@@ -8,35 +8,42 @@ const chatRoutes = require('./routes/chat.routes');
 
 const app = express();
 
+// ✅ Allowed origins
 const allowedOrigins = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
   'https://y-nqukhwea1-iamharshitsharma518-5075s-projects.vercel.app'
 ];
 
+// ✅ FIXED CORS CONFIG
 app.use(cors({
   origin: function (origin, callback) {
+    console.log("Incoming origin:", origin);
+
+    // allow requests with no origin (Postman, mobile apps, etc.)
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
-    } else {
-      return callback(new Error("CORS not allowed"));
     }
+
+    // ❌ DON'T THROW ERROR → just block
+    console.log("Blocked by CORS:", origin);
+    return callback(null, false);
   },
   credentials: true
 }));
 
-// middlewares
+// ✅ Middlewares
 app.use(express.json());
 app.use(cookieParser());
 
-// test route
+// ✅ Test route
 app.get('/', (req, res) => {
   res.send("Backend is running ✅");
 });
 
-// routes
+// ✅ Routes
 app.use('/api/auth', authRouters);
 app.use('/api/chat', chatRoutes);
 
