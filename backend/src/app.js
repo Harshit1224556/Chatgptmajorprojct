@@ -8,14 +8,16 @@ const chatRoutes = require('./routes/chat.routes');
 
 const app = express();
 
-// ✅ Allowed origins — exact matches for localhost
+// ✅ Allowed origins — exact matches
 const allowedOrigins = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
+  'https://y-azure-eta.vercel.app',           // production URL
+  'https://y-azure-eta-git-main-iamharshitsharma518-5075s-projects.vercel.app', // git branch preview
 ];
 
-// ✅ Pattern to allow ALL Vercel deployments (production + preview) for this project
-const allowedVercelPattern = /^https:\/\/.*iamharshitsharma518-5075s-projects\.vercel\.app$/;
+// ✅ Pattern to allow ALL *.vercel.app preview deployments (covers any auto-generated Vercel URL)
+const allowedVercelPattern = /^https:\/\/.*\.vercel\.app$/;
 
 // ✅ FIXED CORS CONFIG
 app.use(cors({
