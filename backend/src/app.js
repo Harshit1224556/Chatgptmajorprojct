@@ -8,26 +8,33 @@ const chatRoutes = require('./routes/chat.routes');
 
 const app = express();
 
-// ✅ Allowed origins
+// ✅ Allowed origins — exact matches for localhost
 const allowedOrigins = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
-  'https://y-nqukhwea1-iamharshitsharma518-5075s-projects.vercel.app'
 ];
+
+// ✅ Pattern to allow ALL Vercel deployments (production + preview) for this project
+const allowedVercelPattern = /^https:\/\/.*iamharshitsharma518-5075s-projects\.vercel\.app$/;
 
 // ✅ FIXED CORS CONFIG
 app.use(cors({
   origin: function (origin, callback) {
     console.log("Incoming origin:", origin);
 
-    // allow requests with no origin (Postman, mobile apps, etc.)
+    // Allow requests with no origin (Postman, mobile apps, curl, etc.)
     if (!origin) return callback(null, true);
 
+    // Allow localhost
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
 
-    // ❌ DON'T THROW ERROR → just block
+    // Allow any Vercel deployment URL for this project
+    if (allowedVercelPattern.test(origin)) {
+      return callback(null, true);
+    }
+
     console.log("Blocked by CORS:", origin);
     return callback(null, false);
   },
